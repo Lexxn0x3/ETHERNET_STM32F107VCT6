@@ -105,6 +105,8 @@ int main(void)
 		ethernetif_set_link(netif_default);
 		sys_check_timeouts();
 
+    udp_send
+
 
 	}
   /* USER CODE END 3 */
