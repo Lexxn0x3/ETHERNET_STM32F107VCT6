@@ -92,7 +92,9 @@ int main(void)
   MX_USART1_UART_Init();
   MX_LWIP_Init();
   /* USER CODE BEGIN 2 */
-  udpServer_init();
+  udpClient_connect();
+
+  int i = 0;
   /* USER CODE END 2 */
 
 
@@ -100,12 +102,22 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 	while (1) {
     /* USER CODE END WHILE */
-
+    
     /* USER CODE BEGIN 3 */
 		MX_LWIP_Process();
 		ethernetif_input(&gnetif);
 		ethernetif_set_link(netif_default);
 		sys_check_timeouts();
+
+    i++;
+
+    if(i == 10000)
+    {
+      udpClient_send();
+      i = 0;
+    }
+
+
   }
   /* USER CODE END 3 */
 }
