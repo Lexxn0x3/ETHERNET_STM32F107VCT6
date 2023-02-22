@@ -11,7 +11,7 @@ struct udp_pcb *upcb;
 int counter = 0;
 struct pbuf buffer;
 
-void udpClient_send(char data[])
+void udpClient_send()
 {
   struct pbuf *txBuf;
   char data[100];
@@ -56,20 +56,20 @@ void udpClient_connect(void)
 	upcb = udp_new();
 
 	/* Bind the block to module's IP and port */
-	ip_addr_t myIPaddr;
-	IP_ADDR4(&myIPaddr, 192, 168, 178, 224);
-	udp_bind(upcb, &myIPaddr, 8);
+	//ip_addr_t myIPaddr;
+	//IP_ADDR4(&myIPaddr, 192, 168, 178, 224);
+	udp_bind(upcb, IP_ADDR_ANY, 8);
 
 
 	/* configure destination IP address and port */
 	ip_addr_t DestIPaddr;
-	IP_ADDR4(&DestIPaddr, 87, 162, 57, 165);
+	IP_ADDR4(&DestIPaddr, 192, 168, 178, 23);
 	err= udp_connect(upcb, &DestIPaddr, 12345);
 
 	if (err == ERR_OK)
 	{
 		/* 2. Send message to server */
-		udpClient_send ();
+		udpClient_send();
 
 		/* 3. Set a receive callback for the upcb */
 		udp_recv(upcb, udp_receive_callback, NULL);
