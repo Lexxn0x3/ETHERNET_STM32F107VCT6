@@ -7,6 +7,7 @@
 #endif
 
 void Connection_Init(void);
+void TCPClient_Send(char * msg);
 
 #ifdef __cplusplus
 }

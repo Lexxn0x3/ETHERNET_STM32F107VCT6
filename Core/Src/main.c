@@ -68,7 +68,6 @@ extern struct netif *netif_default;
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -99,6 +98,7 @@ int main(void)
 
   Connection_Init();
 
+  int i = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -111,6 +111,29 @@ int main(void)
 		ethernetif_input(&gnetif);
 		ethernetif_set_link(netif_default);
 		sys_check_timeouts();
+
+    if (i >= 5000) {
+      if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_15)) {
+        TCPClient_Send("LED15\r\n\r\n");
+      } else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_14)) {
+        TCPClient_Send("LED14\r\n\r\n");
+      } else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_13)) {
+        TCPClient_Send("LED13\r\n\r\n");
+      } else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_12)) {
+        TCPClient_Send("LED12\r\n\r\n");
+      } else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_11)) {
+        TCPClient_Send("LED11\r\n\r\n");
+      } else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_10)) {
+        TCPClient_Send("LED10\r\n\r\n");
+      } else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_9)) {
+        TCPClient_Send("LED9\r\n\r\n");
+      } else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_8)) {
+        TCPClient_Send("LED8\r\n\r\n");
+      }
+      i = 0;
+    }
+
+    i++;
 	}
   /* USER CODE END 3 */
 }
