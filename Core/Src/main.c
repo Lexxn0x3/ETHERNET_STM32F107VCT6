@@ -95,6 +95,7 @@ int main(void)
   udpServer_init();
   /* USER CODE END 2 */
 
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
@@ -105,7 +106,7 @@ int main(void)
 		ethernetif_input(&gnetif);
 		ethernetif_set_link(netif_default);
 		sys_check_timeouts();
-	}
+  }
   /* USER CODE END 3 */
 }
 
