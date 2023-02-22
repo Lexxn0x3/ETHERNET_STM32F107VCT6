@@ -19,7 +19,7 @@ void udpClient_send(char * msg)
 
 	if (msg != NULL)
 	{
-		len = sprintf(data, "PIN: %s", msg);
+		len = sprintf(data, msg);
 	}
 	else
 	{
