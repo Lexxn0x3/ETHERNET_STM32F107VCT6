@@ -60,32 +60,26 @@ void udp_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const
 		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, GPIO_PIN_SET);	
 	else if (buffer[0] == 'B')
 		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_SET);
-	else if (buffer[0] == "C")
+	else if (buffer[0] == 'C')
 		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET);
-	else if (buffer[0] == "D")
+	else if (buffer[0] == 'D')
 		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
-	else if (buffer[0] == "E")
+	else if (buffer[0] == 'E')
 		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
-	else if (buffer[0] == "F")
+	else if (buffer[0] == 'F')
 		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
-	else if (buffer[0] == "G")
+	else if (buffer[0] == 'G')
 		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
-	else if (buffer[0] == "H")
+	else if (buffer[0] == 'H')
 		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
-	else if (buffer[0] == "Y")
-		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_All, GPIO_PIN_SET);
-	/*
+	else if (buffer[0] == 'Y')
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_All, GPIO_PIN_RESET);
+
 	struct pbuf *txBuf;
 
 	char buf[100];
 
-	char msg[] = "Hello From UDP SERVER\n";
-
-	if(HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_15))
-	{
-		char msgNew[] = "Ping 15 Pressed";
-		strcpy(msg, msgNew);
-	}
+	char msg[] = "OK";
 
 	int len = sprintf (buf,msg);
 
@@ -102,7 +96,6 @@ void udp_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const
 	pbuf_free(txBuf);
 
 	pbuf_free(p);
-	*/
 }
 
 void udpServer_init(void)
