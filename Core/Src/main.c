@@ -22,6 +22,7 @@
 #include "usart.h"
 #include "gpio.h"
 #include "HelloWorld/helloworld.h"
+#include "tcp_connecter/connectionMan.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -95,6 +96,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   HelloWorld_init();
+
+  Connection_Init();
 
   /* USER CODE END 2 */
 
