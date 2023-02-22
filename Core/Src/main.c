@@ -117,7 +117,7 @@ void udp_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const
 	char buf[100];
 
 
-	int len = sprintf (buf,"Hello %s From UDP SERVER\n", (char*)p->payload);
+	int len = sprintf (buf,"Hello From UDP SERVER\n");
 
 	/* allocate pbuf from RAM*/
 	txBuf = pbuf_alloc(PBUF_TRANSPORT,len, PBUF_RAM);
