@@ -132,7 +132,8 @@ Middlewares/Third_Party/LwIP/src/core/ipv6/mld6.c \
 Middlewares/Third_Party/LwIP/src/core/ipv6/nd6.c \
 Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c \
 Core/Src/syscalls.c \
-Core/Src/sysmem.c
+Core/Src/sysmem.c \
+Core/Src/ethernetUDP.c
 
 
 # ASM sources
