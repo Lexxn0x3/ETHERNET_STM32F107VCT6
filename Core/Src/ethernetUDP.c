@@ -52,10 +52,30 @@ void sendUDP()
 
 void udp_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port)
 {
-	struct pbuf *txBuf;
+	char buffer[1];
 
-	/* Get the IP of the Client */
-	//char *remoteIP = ipaddr_ntoa(addr);
+	strncpy (buffer, (char *)p->payload, p->len);
+
+	if (buffer[0] == 'A')
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, GPIO_PIN_SET);	
+	else if (buffer[0] == 'B')
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_SET);
+	else if (buffer[0] == "C")
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET);
+	else if (buffer[0] == "D")
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
+	else if (buffer[0] == "E")
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+	else if (buffer[0] == "F")
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+	else if (buffer[0] == "G")
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
+	else if (buffer[0] == "H")
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
+	else if (buffer[0] == "Y")
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_All, GPIO_PIN_SET);
+	/*
+	struct pbuf *txBuf;
 
 	char buf[100];
 
@@ -69,26 +89,20 @@ void udp_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const
 
 	int len = sprintf (buf,msg);
 
-	/* allocate pbuf from RAM*/
 	txBuf = pbuf_alloc(PBUF_TRANSPORT,len, PBUF_RAM);
 
-	/* copy the data into the buffer  */
 	pbuf_take(txBuf, buf, len);
 
-	/* Connect to the remote client */
 	udp_connect(upcb, addr, port);
 
-	/* Send a Reply to the Client */
 	udp_send(upcb, txBuf);
 
-	/* free the UDP connection, so we can accept new clients */
 	udp_disconnect(upcb);
 
-	/* Free the p_tx buffer */
 	pbuf_free(txBuf);
 
-	/* Free the p buffer */
 	pbuf_free(p);
+	*/
 }
 
 void udpServer_init(void)
@@ -101,10 +115,10 @@ void udpServer_init(void)
    upcb = udp_new();
 
    /* 2. Bind the upcb to the local port */
-   ip_addr_t myIPADDR;
-   IP_ADDR4(&myIPADDR, 192, 168, 178, 224);
+   //ip_addr_t myIPADDR;
+   //IP_ADDR4(&myIPADDR, 192, 168, 178, 224);
 
-   err = udp_bind(upcb, &myIPADDR, 7);  // 7 is the server UDP port
+   err = udp_bind(upcb, IP_ADDR_ANY, 7);  // 7 is the server UDP port
 
 
    /* 3. Set a receive callback for the upcb */
