@@ -68,4 +68,18 @@ void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 2 */
 
+void DATA_GPIO_Init(void)
+{
+  
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+  /*Configure GPIO pin: PE15 // input*/
+  GPIO_InitStruct.Pin = GPIO_PIN_15;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_INPUT;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+  /*Configure GPIO pin: PE11 // output*/
+  GPIO_InitStruct.Pin = GPIO_PIN_11;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+}
 /* USER CODE END 2 */
