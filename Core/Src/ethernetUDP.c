@@ -11,7 +11,7 @@ struct udp_pcb *upcb;
 int counter = 0;
 struct pbuf buffer;
 
-void udpClient_send(void)
+void udpClient_send(char data[])
 {
   struct pbuf *txBuf;
   char data[100];
