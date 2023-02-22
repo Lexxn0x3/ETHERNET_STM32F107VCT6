@@ -11,12 +11,20 @@ struct udp_pcb *upcb;
 int counter = 0;
 struct pbuf buffer;
 
-void udpClient_send()
+void udpClient_send(char * msg)
 {
   struct pbuf *txBuf;
   char data[100];
+  int len = 0;
 
-  int len = sprintf(data, "sending UDP client message %d", counter);
+	if (msg != NULL)
+	{
+		len = sprintf(data, "PIN: %s", msg);
+	}
+	else
+	{
+		len = sprintf(data, "sending UDP client message %d", counter);
+	}
 
   /* allocate pbuf from pool*/
   txBuf = pbuf_alloc(PBUF_TRANSPORT, len, PBUF_RAM);
@@ -44,6 +52,8 @@ void udp_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const
 	/*increment message count */
 	counter++;
 
+	udpClient_send("working");
+
 	/* Free receive pbuf */
 	pbuf_free(p);
 }
@@ -69,7 +79,7 @@ void udpClient_connect(void)
 	if (err == ERR_OK)
 	{
 		/* 2. Send message to server */
-		udpClient_send();
+		udpClient_send(NULL);
 
 		/* 3. Set a receive callback for the upcb */
 		udp_recv(upcb, udp_receive_callback, NULL);

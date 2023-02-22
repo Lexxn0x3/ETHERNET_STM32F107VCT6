@@ -23,6 +23,8 @@
 #include "gpio.h"
 #include "lwip/udp.h"
 #include "ethernetUDP.h"
+#include <stdio.h>
+#include <string.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -94,9 +96,9 @@ int main(void)
   /* USER CODE BEGIN 2 */
   udpClient_connect();
 
-  int i = 0;
   /* USER CODE END 2 */
 
+  int i = 0;
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -109,18 +111,41 @@ int main(void)
 		ethernetif_set_link(netif_default);
 		sys_check_timeouts();
 
-    i++;
-
-    if(i == 10000)
+    if (i == 10000)
     {
-      udpClient_send();
+      char * pin;
+
+      if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_8))
+          pin = "A";
+      else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_9))
+          pin = "B";
+      else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_10))
+          pin = "C";
+      else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_11))
+          pin = "D";
+      else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_12))
+          pin = "E";
+      else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_13))
+          pin = "F";
+      else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_14))
+          pin = "G";
+      else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_15))
+          pin = "H";
+      else 
+        pin = 'Y';
+      
+      if (pin != 'Y')
+      {
+        udpClient_send(pin);
+      }
       i = 0;
     }
-
-
+    i++;
   }
+
   /* USER CODE END 3 */
 }
+
 
 /**
   * @brief System Clock Configuration
