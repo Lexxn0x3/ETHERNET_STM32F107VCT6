@@ -21,7 +21,7 @@
 #include "lwip.h"
 #include "usart.h"
 #include "gpio.h"
-#include "lwip/udp.h"
+#include "HelloWorld/helloworld.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -90,7 +90,11 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   MX_LWIP_Init();
+
+  Custom_GPIO_Init();
   /* USER CODE BEGIN 2 */
+
+  HelloWorld_init();
 
   /* USER CODE END 2 */
 
