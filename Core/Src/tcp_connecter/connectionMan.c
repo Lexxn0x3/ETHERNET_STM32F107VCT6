@@ -19,7 +19,7 @@ void Connection_Init(void)
   err_t ret_val;
   int bufspace = 0;
   struct pbuf *pb;
-  char *string = "What is going on my man!!!!\r\n";
+  char *string = "LED1\r\n\r\n";
 
 
   pb = pbuf_alloc(PBUF_TRANSPORT, 0, PBUF_REF);
@@ -32,7 +32,7 @@ void Connection_Init(void)
   pcb = tcp_new();
   tcp_bind(pcb, IP_ADDR_ANY, 61110);
 
-  ret_val = tcp_connect(pcb, &server, 23, NULL);
+  ret_val = tcp_connect(pcb, &server, 12345, NULL);
 
   if (ret_val == ERR_OK) {
      bufspace = tcp_sndbuf(pcb);
