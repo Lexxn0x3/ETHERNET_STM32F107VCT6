@@ -113,7 +113,7 @@ int main(void)
 
     if (i == 10000)
     {
-      char * pin;
+      char * pin = "Y";
 
       if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_8))
           pin = "A";
@@ -132,12 +132,10 @@ int main(void)
       else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_15))
           pin = "H";
       else 
-        pin = 'Y';
+        pin = "Y";
       
-      if (pin != 'Y')
-      {
-        udpClient_send(pin);
-      }
+      udpClient_send(pin);
+      
       i = 0;
     }
     i++;
