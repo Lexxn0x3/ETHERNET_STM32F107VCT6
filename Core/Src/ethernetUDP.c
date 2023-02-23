@@ -6,55 +6,41 @@
 #include "stdbool.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 
 struct udp_pcb *upcb;
-int counter = 0;
 struct pbuf buffer;
 
-void udpClient_send(char * msg)
+void udpClient_send(uint32_t msg)
 {
   struct pbuf *txBuf;
-  char data[100];
+  char data[4];
   int len = 0;
 
-	if (msg != NULL)
-	{
-		len = sprintf(data, msg);
-	}
-	else
-	{
-		len = sprintf(data, "sending UDP client message %d", counter);
-	}
-
   /* allocate pbuf from pool*/
-  txBuf = pbuf_alloc(PBUF_TRANSPORT, len, PBUF_RAM);
+  txBuf = pbuf_alloc(PBUF_TRANSPORT, 4, PBUF_RAM);
+
 
   if (txBuf != NULL)
   {
     /* copy data to pbuf */
-    pbuf_take(txBuf, data, len);
+    pbuf_take(txBuf, &msg, 4);
 
     /* send udp data */
     udp_send(upcb, txBuf);
 
     /* free pbuf */
     pbuf_free(txBuf);
-
-	counter++;
   }
 }
 
 void udp_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port)
 {
-	/* Copy the data from the pbuf */
-	//strncpy (&buffer, (char *)p->payload, p->len);
+	uint32_t val = 0;
+	memcpy(&val, p->payload, sizeof(uint32_t));
 
-	/*increment message count */
-	counter++;
+	LL_GPIO_WriteOutputPort(GPIOD, val);
 
-	udpClient_send("working");
-
-	/* Free receive pbuf */
 	pbuf_free(p);
 }
 
@@ -73,7 +59,7 @@ void udpClient_connect(void)
 
 	/* configure destination IP address and port */
 	ip_addr_t DestIPaddr;
-	IP_ADDR4(&DestIPaddr, 87,162,57,165);
+	IP_ADDR4(&DestIPaddr, 192,168,178,23);
 	err= udp_connect(upcb, &DestIPaddr, 12346);
 
 	if (err == ERR_OK)
@@ -84,4 +70,31 @@ void udpClient_connect(void)
 		/* 3. Set a receive callback for the upcb */
 		udp_recv(upcb, udp_receive_callback, NULL);
 	}
+}
+
+void udpServer_init(void)
+{
+	// UDP Control Block structure
+   struct udp_pcb *upcb;
+   err_t err;
+
+   /* 1. Create a new UDP control block  */
+   upcb = udp_new();
+
+   /* 2. Bind the upcb to the local port */
+   //ip_addr_t myIPADDR;
+   //IP_ADDR4(&myIPADDR, 192, 168, 178, 224);
+
+   err = udp_bind(upcb, IP_ADDR_ANY, 12346);  // 7 is the server UDP port
+
+
+   /* 3. Set a receive callback for the upcb */
+   if(err == ERR_OK)
+   {
+	   udp_recv(upcb, udp_receive_callback, NULL);
+   }
+   else
+   {
+	   udp_remove(upcb);
+   }
 }

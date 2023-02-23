@@ -21,10 +21,6 @@
 #include "lwip.h"
 #include "usart.h"
 #include "gpio.h"
-#include "lwip/udp.h"
-#include "ethernetUDP.h"
-#include <stdio.h>
-#include <string.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -94,17 +90,21 @@ int main(void)
   MX_USART1_UART_Init();
   MX_LWIP_Init();
   /* USER CODE BEGIN 2 */
+  udpServer_init();
   udpClient_connect();
+  
 
   /* USER CODE END 2 */
 
   int i = 0;
+  uint32_t regLast=0;
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	while (1) {
+	while (1) 
+  {
     /* USER CODE END WHILE */
-    
+
     /* USER CODE BEGIN 3 */
 		MX_LWIP_Process();
 		ethernetif_input(&gnetif);
@@ -113,29 +113,13 @@ int main(void)
 
     if (i == 10000)
     {
-      char * pin = "Y";
+      uint32_t reg = LL_GPIO_ReadInputPort(GPIOE);
 
-      if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_8))
-          pin = "A";
-      else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_9))
-          pin = "B";
-      else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_10))
-          pin = "C";
-      else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_11))
-          pin = "D";
-      else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_12))
-          pin = "E";
-      else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_13))
-          pin = "F";
-      else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_14))
-          pin = "G";
-      else if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_15))
-          pin = "H";
-      else 
-        pin = "Y";
-      
-      udpClient_send(pin);
-      
+      if(regLast != reg)
+      {
+          regLast = reg;
+          udpClient_send(reg);
+      }
       i = 0;
     }
     i++;
@@ -143,7 +127,6 @@ int main(void)
 
   /* USER CODE END 3 */
 }
-
 
 /**
   * @brief System Clock Configuration
